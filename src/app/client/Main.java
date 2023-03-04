@@ -19,10 +19,10 @@ public class Main {
         try {
             socket = new Socket(HOST, PORT);
 
-            BufferedReader sin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            line = sin.readLine();
+            BufferedReader sIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            line = sIn.readLine();
 
-            System.out.println("Réponse serveur : " + line);
+            System.out.println("Server answer : " + line);
             socket.close();
 
         } catch (IOException e) {

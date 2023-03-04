@@ -20,10 +20,8 @@ public class ServerFactory {
             try {
                 ServerManager.startServer(server);
             }catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
-                System.err.println("Error on starting servers " + e );
+                System.err.println("Error on starting server " + server + e );
             }
         }
-
-
     }
 }
