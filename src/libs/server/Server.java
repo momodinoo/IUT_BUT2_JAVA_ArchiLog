@@ -6,38 +6,50 @@ import java.net.ServerSocket;
 import java.lang.reflect.InvocationTargetException;
 
 public abstract class Server implements Runnable {
-      private ServerSocket listenSocket;
-      private Class<? extends Service> serviceClass;
+    private final int                      port;
+    private final ServerSocket             listenSocket;
+    private final Class<? extends Service> serviceClass;
 
-      public Server(Class<? extends Service> serviceClass, int port) throws IOException {
-            listenSocket = new ServerSocket(port);
-            this.serviceClass = serviceClass;
-      }
+    public Server(Class<? extends Service> serviceClass, int port) throws IOException {
+        this.port = port;
+        this.serviceClass = serviceClass;
+        this.listenSocket = new ServerSocket(this.port);
+    }
 
-      public void run() {
-            try {
-                  while (true) {
-                        serviceClass.getConstructor(Socket.class).newInstance(listenSocket).start();
-                  }
-            } catch (NoSuchMethodException e) {
+    public Server(Class<? extends Service> serviceClass) throws IOException {
+        this.port = 1111;
+        this.serviceClass = serviceClass;
+        this.listenSocket = new ServerSocket(this.port);
+    }
 
-                  try {
-                        this.listenSocket.close();
-                  } catch (IOException ignored) {
-                  }
+    public int getPort() {
+        return this.port;
+    }
 
-                  System.err.println("Problem on the listening port : " + e);
-
-            } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
-                  throw new RuntimeException(e);
+    public void run() {
+        try {
+            while (true) {
+                this.serviceClass.getConstructor(Socket.class).newInstance(listenSocket.accept()).start();
             }
-      }
+        } catch (NoSuchMethodException e) {
 
-      //TODO edit finalize method
-      protected void finalize() throws Throwable {
             try {
-                  this.listenSocket.close();
-            } catch (IOException e1) {
+                this.listenSocket.close();
+            } catch (IOException ignored) {
             }
-      }
+
+            System.err.println("Problem on the listening port : " + e);
+
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //TODO edit finalize method
+    protected void finalize() {
+        try {
+            this.listenSocket.close();
+        } catch (IOException ignored) {
+        }
+    }
 }
