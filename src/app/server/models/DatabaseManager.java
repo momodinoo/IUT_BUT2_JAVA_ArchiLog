@@ -9,6 +9,7 @@ public class DatabaseManager {
      * Database connexion
      * Database driver
      * Database Verification (tables ?)
+     * ouai
      */
 
 }
