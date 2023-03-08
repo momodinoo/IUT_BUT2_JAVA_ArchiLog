@@ -12,11 +12,6 @@ public class ReturnService extends Service {
         super(socket);
     }
 
-    @Override
-    public void finalize() throws Throwable {
-        //do nothing.
-    }
-
     //Todo review that
     @Override
     public void run() {

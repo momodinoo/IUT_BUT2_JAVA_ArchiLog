@@ -25,8 +25,4 @@ public abstract class Service implements Runnable {
     public void start() {
         (new Thread(this)).start();
     }
-
-    //TODO edit finialize method
-    public abstract void finalize() throws Throwable;
-
 }
