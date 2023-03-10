@@ -46,12 +46,4 @@ public abstract class Server implements Runnable {
             throw new RuntimeException(e);
         }
     }
-
-    //TODO edit finalize method
-    protected void finalize() {
-        try {
-            this.listenSocket.close();
-        } catch (IOException ignored) {
-        }
-    }
 }
