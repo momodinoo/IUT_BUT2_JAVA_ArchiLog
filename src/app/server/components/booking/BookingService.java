@@ -20,14 +20,17 @@ public class BookingService extends Service {
     public void run() {
         try {
 
+            while (true) {
                 PrintWriter out = new PrintWriter(this.getClient().getOutputStream(), true);
 
-                BufferedReader in = new BufferedReader(new InputStreamReader(this.getClient().getInputStream()));
-                String line = in.readLine();
+                BufferedReader in   = new BufferedReader(new InputStreamReader(this.getClient().getInputStream()));
+                String         line = in.readLine();
 
                 out.println(line);
+            }
 
-                // afficher tous les docuements disponibles
-        } catch (IOException ignored) {}
+            //TODO  afficher tous les docuements disponibles
+        } catch (IOException ignored) {
+        }
     }
 }

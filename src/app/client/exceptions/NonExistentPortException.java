@@ -2,7 +2,9 @@ package app.client.exceptions;
 
 public class NonExistentPortException extends RuntimeException{
 
-    NonExistentPortException() {
+    public static final int EXIT_CODE = -5;
+
+    public NonExistentPortException() {
         super();
     }
 

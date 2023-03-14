@@ -1,11 +1,12 @@
-package app.client.managers;
+package app.client.managers.client;
+
+import app.client.exceptions.NonExistentPortException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.Buffer;
 
 public class ClientSocketManager {
 
@@ -18,19 +19,23 @@ public class ClientSocketManager {
     private BufferedReader serverInput;
     private PrintWriter    clientInput;
 
-    public ClientSocketManager() throws IOException {
+    public ClientSocketManager() throws NonExistentPortException {
         this(DEFAULT_HOST, DEFAULT_PORT);
     }
 
-    public ClientSocketManager(int port) throws IOException {
+    public ClientSocketManager(int port) throws NonExistentPortException {
         this(DEFAULT_HOST, port);
     }
 
-    public ClientSocketManager(String host, int port) throws IOException {
-        this.socket = new Socket(host, port);
+    public ClientSocketManager(String host, int port) throws NonExistentPortException {
+        try {
+            this.socket = new Socket(host, port);
+        } catch (IOException e) {
+            throw new NonExistentPortException();
+        }
     }
 
-    public ClientSocketManager(Socket socket) throws IOException {
+    public ClientSocketManager(Socket socket) throws NonExistentPortException {
         this.socket = socket;
     }
 
@@ -66,7 +71,6 @@ public class ClientSocketManager {
 
     public void sendLine() throws IOException {
         BufferedReader input = this.getInput();
-        System.out.println("blbl : " + input.readLine());
         this.clientInput.println(input.readLine());
     }
 

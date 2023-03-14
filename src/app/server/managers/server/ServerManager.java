@@ -1,4 +1,4 @@
-package app.server.managers;
+package app.server.managers.server;
 
 import libs.server.Server;
 
