@@ -1,4 +1,4 @@
-package app.server.managers;
+package app.server.managers.server;
 
 import app.server.components.booking.BookingServer;
 import app.server.components.borrow.BorrowServer;

@@ -19,14 +19,18 @@ public class BookingService extends Service {
     @Override
     public void run() {
         try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(this.getClient().getInputStream()));
-            PrintWriter out = new PrintWriter(this.getClient().getOutputStream(), true);
-            String line = in.readLine();
 
-            if (Objects.equals(line, "1"))
-                out.println("Bien sur le service de Réservation");
+            while (true) {
+                PrintWriter out = new PrintWriter(this.getClient().getOutputStream(), true);
 
-            // afficher tous les docuements disponibles
-        } catch (IOException ignored) {}
+                BufferedReader in   = new BufferedReader(new InputStreamReader(this.getClient().getInputStream()));
+                String         line = in.readLine();
+
+                out.println(line);
+            }
+
+            //TODO  afficher tous les docuements disponibles
+        } catch (IOException ignored) {
+        }
     }
 }
