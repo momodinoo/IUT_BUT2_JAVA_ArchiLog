@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public abstract class Server implements Runnable {
     private final int                      port;
+
     private final ServerSocket             listenSocket;
     private final Class<? extends Service> serviceClass;
 
@@ -22,11 +23,13 @@ public abstract class Server implements Runnable {
         this.listenSocket = new ServerSocket(this.port);
     }
 
-    //TODO a constr w only a port as parameter for testing if the server is open with the getPort() method
+    //TODO a constr with only a port as parameter for testing if the server is open with the getPort() method
 
     public int getPort() {
         return this.port;
     }
+
+    public ServerSocket getListenSocket() { return listenSocket; }
 
     public void run() {
         try {
