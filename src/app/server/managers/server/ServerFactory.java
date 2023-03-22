@@ -10,31 +10,31 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class ServerFactory {
-    private static ArrayList<Class<? extends Server>> serverList = new ArrayList<>();
 
-    public static void launchServers() {
-        serverList.add(BookingServer.class);
-        serverList.add(BorrowServer.class);
-        serverList.add(ReturnServer.class);
+    public static void start() {
+        ArrayList<Class<? extends Server>> serversList = new ArrayList<>();
 
-        for (Class<? extends Server> server : serverList) {
+        serversList.add(BookingServer.class);
+        serversList.add(BorrowServer.class);
+        serversList.add(ReturnServer.class);
+
+        for (Class<? extends Server> server : serversList) {
             try {
-                ServerManager.startServer(server);
+                ServerManager.start(server);
             } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                      IllegalAccessException e) {
-                System.err.println("Error on starting server " + server + e);
+                System.err.println("Error on starting server " + server);
+                e.printStackTrace();
             }
         }
     }
 
-    public static void stopServers() {
-        for (Class<? extends Server> server : serverList) {
-            try {
-                ServerManager.stopServer(server);
-            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
-                     IllegalAccessException | IOException e) {
-                System.err.println("Error on stopping server " + server + e);
-            }
+    public static void stop() {
+        try {
+            ServerManager.stopAll();
+        } catch (IOException e) {
+            System.err.println("Error on stopping servers");
+            e.printStackTrace();
         }
     }
 }
