@@ -2,6 +2,8 @@ package app.server.models.entities;
 
 import app.server.exceptions.RestrictionException;
 
+//TODO écrire et lock les méthodes lockables
+
 public interface IDocument {
 
     int getNumber();
@@ -30,6 +32,6 @@ public interface IDocument {
     /**
      * Return Document or reservation cancellation
      */
-    void returnBook();
+    void returnDocument();
 
 }
