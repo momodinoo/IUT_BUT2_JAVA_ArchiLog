@@ -1,4 +1,4 @@
-package app.server.models;
+package app.server.managers.database;
 
 import java.sql.*;
 
@@ -12,7 +12,7 @@ public class DatabaseManager {
     public static void setJdbcClassName(String jdbcClassName) throws ClassNotFoundException {
         DatabaseManager.jdbcClassName = jdbcClassName;
 
-        Class.forName(DatabaseManager.jdbcClassName);
+        Class.forName("com.mysql.cj.jdbc.Driver");
     }
 
     public static void setUrl(String url) {
@@ -33,14 +33,11 @@ public class DatabaseManager {
         return statement.executeQuery(stmt);
     }
 
+    public static PreparedStatement prepare(String stmt) throws SQLException {
+        return DatabaseManager.getInstance().prepareStatement(stmt);
+    }
+
     public static void close() throws SQLException {
         DatabaseManager.getInstance().close();
     }
-
-
-    /**
-     * TODO THIS LIST:
-     * Database driver
-     * Database Verification (tables ?)
-     */
 }

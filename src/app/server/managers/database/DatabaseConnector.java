@@ -1,4 +1,4 @@
-package app.server.models;
+package app.server.managers.database;
 
 public class DatabaseConnector {
     public static void connect(String jdbc, String url) throws ClassNotFoundException {

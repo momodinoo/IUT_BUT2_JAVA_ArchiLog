@@ -4,13 +4,14 @@ import java.net.Socket;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.lang.reflect.InvocationTargetException;
+import java.net.SocketException;
 
 public abstract class Server implements Runnable {
     private final int port;
 
-    private final ServerSocket             listenSocket;
+    private final ServerSocket listenSocket;
     private final Class<? extends Service> serviceClass;
-    private       Service                  actualServiceClass;
+    private Service actualServiceClass;
 
     public Server(Class<? extends Service> serviceClass, int port) throws IOException {
         this.port = port;
@@ -42,6 +43,7 @@ public abstract class Server implements Runnable {
 
             System.err.println("Problem on the listening port : " + e);
 
+        } catch (SocketException ignored) {
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | IOException e) {
             e.printStackTrace();
         }
@@ -49,7 +51,7 @@ public abstract class Server implements Runnable {
 
     public void stop() throws IOException {
         if (this.actualServiceClass != null) {
-            this.actualServiceClass.closeClient();
+            this.actualServiceClass.getClient().close();
         }
         this.getListenSocket().close();
     }

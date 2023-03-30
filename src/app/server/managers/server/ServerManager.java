@@ -23,7 +23,7 @@ public class ServerManager {
     public static void stopAll() throws IOException {
 
         for(Server server : serversList) {
-            //server.stop();
+            server.stop();
             //TODO STOP SERVER :)
         }
 

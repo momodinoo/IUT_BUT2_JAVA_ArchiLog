@@ -1,9 +1,11 @@
 package app.server;
 
+import app.server.managers.database.DataManager;
 import app.server.managers.server.ServerFactory;
-import app.server.models.DatabaseConnector;
-import app.server.models.DatabaseManager;
+import app.server.managers.database.DatabaseConnector;
+import app.server.managers.database.DatabaseManager;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 
@@ -12,15 +14,20 @@ public class Main {
     private static final String URL = "jdbc:mysql://sql.freedb.tech:3306/freedb_Archilog?user=freedb_Archilog&password=rnTqGkMSJ!9XsN2";
 
 
-    public static void main(String[] args) throws InterruptedException, ClassNotFoundException {
+    public static void main(String[] args) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
-            DatabaseConnector.connect(JDCB, URL);
-            ServerFactory.start();
-            Thread.sleep(1000);
-            ServerFactory.stop();
+        DatabaseConnector.connect(JDCB, URL);
+        ServerFactory.start();
 
-            // test
-        try {
+        DataManager.populate();
+
+        DataManager.print();
+
+        //Thread.sleep(1000);
+        //ServerFactory.stop();
+
+        // test
+        /*try {
             ResultSet res = DatabaseManager.execute("SELECT * FROM document");
             ResultSetMetaData rsmd = res.getMetaData();
             int columnsNumber = rsmd.getColumnCount();
@@ -40,6 +47,6 @@ public class Main {
             System.out.println("Connection to database closed");
         } catch (Exception e) {
             System.err.println(e);
-        }
+        }*/
     }
 }

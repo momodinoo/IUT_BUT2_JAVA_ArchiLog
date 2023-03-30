@@ -23,7 +23,7 @@ public class BookingService extends Service {
             while (true) {
                 PrintWriter out = new PrintWriter(this.getClient().getOutputStream(), true);
 
-                BufferedReader in   = new BufferedReader(new InputStreamReader(this.getClient().getInputStream()));
+                BufferedReader in   = new BufferedReader(new InputStreamReader(this.getClient().getInputStream())); // Faire en sorte que le bugger et le print soit déjà créés
                 String         line = in.readLine();
 
                 out.println(line);
