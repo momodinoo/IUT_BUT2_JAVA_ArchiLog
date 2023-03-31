@@ -3,6 +3,9 @@ package app.server.managers.database;
 import app.server.components.booking.BookingServer;
 import app.server.components.borrow.BorrowServer;
 import app.server.components.returns.ReturnServer;
+import app.server.entities.DocumentEntity;
+import app.server.entities.interfaces.IDocument;
+import app.server.entities.interfaces.IEntity;
 import app.server.managers.server.ServerManager;
 import app.server.models.AbstractModel;
 import app.server.models.DocumentModel;
@@ -15,20 +18,30 @@ import java.util.ArrayList;
 
 public class DataFactory {
 
-    public static void create() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    private static final ArrayList<IModel<?>> modelList = new ArrayList<>();
 
-        ArrayList<Class<? extends IModel>> modelList = new ArrayList<>();
+    public static void create() {
 
-        modelList.add(DocumentModel.class);
+        DataFactory.modelList.add(new DocumentModel<>());
 
         try {
-            for (Class<? extends IModel> model : modelList) {
-                model.getDeclaredConstructor().newInstance().send();
+            for (IModel<?> model : modelList) {
+                model.send();
             }
-        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public static void save() {
+        try {
+            for(IEntity entity : DataManager.cache) {
+                entity.save();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

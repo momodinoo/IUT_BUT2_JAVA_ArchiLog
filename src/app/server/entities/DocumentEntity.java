@@ -3,8 +3,11 @@ package app.server.entities;
 import app.server.entities.interfaces.IDocument;
 import app.server.entities.interfaces.ISubscriber;
 import app.server.exceptions.RestrictionException;
+import app.server.models.DocumentModel;
 
-public class Document implements IDocument {
+import java.sql.SQLException;
+
+public class DocumentEntity implements IDocument {
 
     private final int number;
     private final String title;
@@ -13,7 +16,7 @@ public class Document implements IDocument {
     private ISubscriber booker = null;
 
 
-    public Document(int number, String title) {
+    public DocumentEntity(int number, String title) {
 
         this.number = number;
         this.title = title;
@@ -51,6 +54,13 @@ public class Document implements IDocument {
     @Override
     public void returnDocument() {
 
+    }
+
+    @Override
+    public void save() throws SQLException {
+        DocumentModel<DocumentEntity> documentModel = new DocumentModel<>();
+
+        documentModel.save(this);
     }
 
 }

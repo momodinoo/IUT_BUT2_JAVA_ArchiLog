@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class DataManager {
     public static ArrayList<IEntity> cache = new ArrayList<>();
 
-    public static void populate() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public static void populate() {
         DataFactory.create();
     }
 
@@ -23,13 +23,5 @@ public class DataManager {
     public static void print() {
         System.out.println(cache.toString());
     }
-
-
-
-    /**
-     * TODO THIS LIST:
-     * Main Requests (getDVDList...) // Create Models to do that.
-     * Cache System
-     */
 
 }

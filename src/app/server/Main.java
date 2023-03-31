@@ -8,13 +8,14 @@ import app.server.managers.database.DatabaseManager;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.util.List;
 
 public class Main {
     private static final String JDCB = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://sql.freedb.tech:3306/freedb_Archilog?user=freedb_Archilog&password=rnTqGkMSJ!9XsN2";
 
 
-    public static void main(String[] args) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException, InterruptedException {
 
         DatabaseConnector.connect(JDCB, URL);
         ServerFactory.start();
@@ -23,8 +24,8 @@ public class Main {
 
         DataManager.print();
 
-        //Thread.sleep(1000);
-        //ServerFactory.stop();
+        Thread.sleep(1000);
+        ServerFactory.stop();
 
         // test
         /*try {

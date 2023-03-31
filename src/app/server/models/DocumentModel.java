@@ -1,16 +1,16 @@
 package app.server.models;
 
-import app.server.entities.Document;
+import app.server.entities.DocumentEntity;
 import app.server.entities.interfaces.IDocument;
+import app.server.entities.interfaces.IEntity;
 import app.server.managers.database.DataManager;
 import app.server.managers.database.DatabaseManager;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DocumentModel extends AbstractModel {
+public class DocumentModel<T extends DocumentEntity> extends AbstractModel<T> {
 
     public void send() throws SQLException {
         ResultSet res = DatabaseManager.execute("SELECT * FROM document");
@@ -18,13 +18,13 @@ public class DocumentModel extends AbstractModel {
             int documentNumber = res.getInt("document_id");
             String documentTitle = res.getString("document_title");
 
-            IDocument document = new Document(documentNumber, documentTitle);
+            DocumentEntity document = new DocumentEntity(documentNumber, documentTitle);
 
             DataManager.add(document);
         }
     }
 
-    public void add(Document document) throws SQLException {
+    public void add(T document) throws SQLException {
 
         int documentNumber = document.getNumber();
         String documentTitle = document.getTitle();
@@ -33,9 +33,20 @@ public class DocumentModel extends AbstractModel {
         res.setInt(1, documentNumber);
         res.setString(2, documentTitle);
 
-        res.executeQuery();
+        res.executeUpdate();
 
         DataManager.add(document);
+    }
+
+    public void save(T document) throws SQLException {
+        int documentNumber = document.getNumber();
+        String documentTitle = document.getTitle();
+
+        PreparedStatement res = DatabaseManager.prepare("UPDATE document SET document_title = ? WHERE document_id = ?");
+        res.setString(1, documentTitle);
+        res.setInt(2, documentNumber);
+
+        res.executeUpdate();
     }
 
 }
