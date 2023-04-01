@@ -31,6 +31,10 @@ public class ClientSocketManager {
         this.wakanTTP = new WakanTTP(this.socket);
     }
 
+    public BufferedReader getInput() {
+        return new BufferedReader(new InputStreamReader(System.in));
+    }
+
     public Socket getSocket() {
         return this.socket;
     }

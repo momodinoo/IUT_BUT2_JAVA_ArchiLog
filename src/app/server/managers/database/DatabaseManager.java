@@ -12,7 +12,7 @@ public class DatabaseManager {
     public static void setJdbcClassName(String jdbcClassName) throws ClassNotFoundException {
         DatabaseManager.jdbcClassName = jdbcClassName;
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
+        Class.forName(DatabaseManager.jdbcClassName);
     }
 
     public static void setUrl(String url) {

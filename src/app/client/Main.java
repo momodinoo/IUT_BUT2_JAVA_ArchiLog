@@ -19,15 +19,17 @@ public class Main {
         try {
             client = new ClientManager(args);
 
+            client.getProtocol().send("welcome");
+            System.out.println(client.getProtocol().read());
+
             while (true) {
 
-                client.getSocketManager().getProtocol().setupCommunication();
+                client.getProtocol().setupCommunication();
 
-                BufferedReader rd   = new BufferedReader(new InputStreamReader(System.in));
-                String         gnee = rd.readLine();
+                BufferedReader content = client.getSocketManager().getInput();
 
-                client.getSocketManager().getProtocol().send(gnee);
-                String response = client.getSocketManager().getProtocol().read();
+                client.getProtocol().send(content.readLine());
+                String response = client.getProtocol().read();
 
                 if (response.equals("stop")) break;
 

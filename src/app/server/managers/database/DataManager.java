@@ -6,10 +6,7 @@ import app.server.entities.interfaces.IDocument;
 import app.server.entities.interfaces.IEntity;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class DataManager {
     public static HashMap<String, IEntity> cache = new HashMap<>();
@@ -26,17 +23,7 @@ public class DataManager {
         return new ArrayList<>(cache.values());
     }
 
-    public static ArrayList<IEntity> getDocuments() {
-        return new ArrayList<>( cache.values().stream().filter(iEntity -> iEntity instanceof DocumentEntity).sorted((o1, o2) -> o1.getNumber() - o2.getNumber()).toList());
-    }
-
     public static IEntity get(String entityIdentifier) {
         return cache.get(entityIdentifier);
-    }
-
-    // test
-    public static ArrayList<IEntity> getSubscribers() {
-        return new ArrayList<>( cache.values().stream().filter(iEntity -> iEntity instanceof SubscriberEntity).sorted((o1, o2) -> o1.getNumber() - o2.getNumber()).toList());
-
     }
 }

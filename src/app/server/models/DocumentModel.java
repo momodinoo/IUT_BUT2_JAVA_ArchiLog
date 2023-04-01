@@ -31,7 +31,7 @@ public class DocumentModel<T extends DocumentEntity> extends AbstractModel<T> {
     public void save(T document) throws SQLException {
         int documentNumber = document.getNumber();
         String documentState = document.getState();
-        int documentSubscriberID = document.getIdSubscriber();
+        int documentSubscriberID = document.getSubscriber().getNumber();
 
         PreparedStatement  res = DatabaseManager.prepare("UPDATE document SET document_state = ?, id_subscriber = ? WHERE document_id = ?");
         res.setString(1, documentState);

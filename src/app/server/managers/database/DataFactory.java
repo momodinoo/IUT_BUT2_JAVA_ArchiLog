@@ -7,10 +7,7 @@ import app.server.entities.DocumentEntity;
 import app.server.entities.interfaces.IDocument;
 import app.server.entities.interfaces.IEntity;
 import app.server.managers.server.ServerManager;
-import app.server.models.AbstractModel;
-import app.server.models.DVDModel;
-import app.server.models.DocumentModel;
-import app.server.models.IModel;
+import app.server.models.*;
 import libs.server.Server;
 
 import java.lang.reflect.InvocationTargetException;
@@ -25,6 +22,7 @@ public class DataFactory {
 
         DataFactory.modelList.add(new DocumentModel<>());
         DataFactory.modelList.add(new DVDModel<>());
+        DataFactory.modelList.add(new SubscriberModel<>());
 
         try {
             for (IModel<?> model : modelList) {

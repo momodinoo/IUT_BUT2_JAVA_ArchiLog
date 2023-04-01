@@ -1,5 +1,7 @@
 package app.client.managers.client;
 
+import libs.wakanttp.WakanTemplate;
+
 import java.io.IOException;
 
 public class ClientManager {
@@ -15,5 +17,9 @@ public class ClientManager {
 
     public ClientSocketManager getSocketManager() {
         return this.clientSocketManager;
+    }
+
+    public WakanTemplate getProtocol() {
+        return this.getSocketManager().getProtocol();
     }
 }

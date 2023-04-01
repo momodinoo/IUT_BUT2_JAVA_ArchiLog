@@ -55,7 +55,7 @@ public class DocumentEntity implements IDocument {
     }
 
     @Override
-    public ISubscriber GetBooker() {
+    public ISubscriber getBooker() {
         return booker;
     }
 

@@ -15,7 +15,7 @@ public interface IDocument extends IEntity {
     /**
      * @return null if not reserved or borrowed.
      */
-    ISubscriber GetBooker();
+    ISubscriber getBooker();
 
 
     /**
