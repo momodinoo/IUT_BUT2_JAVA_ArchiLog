@@ -13,15 +13,18 @@ public class SelectBookBookingService {
     public static void send(WakanTemplate wakanTTP) throws IOException {
 
         SubscriberEntity subscriber = SelectBookBookingService.chooseClient(wakanTTP);
-        wakanTTP.send("Client choisi : " + subscriber.getName() + System.lineSeparator() + "Veuillez entrer votre numéro document :");
+        wakanTTP.send("Client choisi : " + subscriber.getName() + System.lineSeparator() + "Veuillez entrer le numéro du document à réserver :");
 
         DocumentEntity document = SelectBookBookingService.chooseDocument(wakanTTP);
-        wakanTTP.send("Document choisi : " + document.getTitle());
 
+        try {
+            document.setBooker(subscriber); //TODO synchronize & timer (de 2h)
+        } catch(RestrictionException re){
+            wakanTTP.send("Ce document est déjà réservé.");
+        }
 
-
-        document.setBooker(subscriber); //TODO synchronize & timer (de 2h)
         //document.save();
+        wakanTTP.send("Document réservé : " + document.getTitle());
     }
 
     private static SubscriberEntity chooseClient(WakanTemplate wakanTTP) throws IOException {
@@ -47,14 +50,8 @@ public class SelectBookBookingService {
         EntityUtils<DocumentEntity> su = new EntityUtils<>(DocumentEntity.class);
 
         while (!BookingUtils.isNumeric(documentId) || (document = su.getEntityById(Integer.parseInt(documentId))) == null) {
-            String messageError = "Numéro de document incorrect, veuillez réessayer." + System.lineSeparator() + "Entrez votre numéro document : ";
+            String messageError = "Numéro de document incorrect, veuillez réessayer." + System.lineSeparator() + "Entrez le numéro du document : ";
             documentId = retry(messageError, wakanTTP);
-        }
-
-        if(document.getBooker() != null) {
-            wakanTTP.send("Livre déjà réservé... Wakan Tanka refuse votre réservation.");
-            wakanTTP.close();
-            throw new RestrictionException();
         }
 
         return document;
