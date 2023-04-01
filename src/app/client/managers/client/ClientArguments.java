@@ -1,10 +1,10 @@
 package app.client.managers.client;
 
-import app.client.exceptions.NonExistentPortException;
+import java.io.IOException;
 
 public class ClientArguments {
 
-    public static ClientSocketManager manageArgument(String[] args) throws NonExistentPortException {
+    public static ClientSocketManager manageArgument(String[] args) throws IOException {
 
         return switch (args.length) {
             case 1 ->  new ClientSocketManager(Integer.parseInt(args[0]));

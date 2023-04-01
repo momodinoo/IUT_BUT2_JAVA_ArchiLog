@@ -8,17 +8,14 @@ import java.net.Socket;
 
 public class ReturnService extends Service {
 
-    public ReturnService(Socket socket) {
+    public ReturnService(Socket socket) throws IOException {
         super(socket);
     }
 
-    //Todo review that
     @Override
-    public void run() {
-        try {
-            PrintWriter out = new PrintWriter(this.getClient().getOutputStream(), true);
-            out.println("Hello World!");
-        } catch (IOException ignored) {
-        }
+    protected void execute() throws IOException {
+
+        this.wakanTTP.send(this.wakanTTP.read());
+
     }
 }

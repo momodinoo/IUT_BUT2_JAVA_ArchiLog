@@ -9,9 +9,9 @@ import java.net.SocketException;
 public abstract class Server implements Runnable {
     private final int port;
 
-    private final ServerSocket listenSocket;
+    private final ServerSocket             listenSocket;
     private final Class<? extends Service> serviceClass;
-    private Service actualServiceClass;
+    private       Service                  actualServiceClass;
 
     public Server(Class<? extends Service> serviceClass, int port) throws IOException {
         this.port = port;
@@ -32,8 +32,10 @@ public abstract class Server implements Runnable {
 
     public void run() {
         try {
-            actualServiceClass = this.serviceClass.getConstructor(Socket.class).newInstance(listenSocket.accept());
-            actualServiceClass.start();
+            while (true) {
+                actualServiceClass = this.serviceClass.getConstructor(Socket.class).newInstance(listenSocket.accept());
+                actualServiceClass.start();
+            }
         } catch (NoSuchMethodException e) {
 
             try {

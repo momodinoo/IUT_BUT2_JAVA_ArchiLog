@@ -6,7 +6,6 @@ import app.server.exceptions.RestrictionException;
 
 public interface IDocument extends IEntity {
 
-    int getNumber();
 
     /**
      * @return null if not reserved or borrowed.

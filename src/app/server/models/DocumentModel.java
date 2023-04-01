@@ -12,38 +12,27 @@ import java.sql.SQLException;
 
 public class DocumentModel<T extends DocumentEntity> extends AbstractModel<T> {
 
+    @Override
     public void send() throws SQLException {
         ResultSet res = DatabaseManager.execute("SELECT * FROM document");
         while (res.next()) {
             int documentNumber = res.getInt("document_id");
             String documentTitle = res.getString("document_title");
+            String documentState = res.getString("document_state");
 
-            DocumentEntity document = new DocumentEntity(documentNumber, documentTitle);
+            DocumentEntity document = new DocumentEntity(documentNumber, documentTitle, documentState);
 
             DataManager.add(document);
         }
     }
 
-    public void add(T document) throws SQLException {
-
-        int documentNumber = document.getNumber();
-        String documentTitle = document.getTitle();
-
-        PreparedStatement res = DatabaseManager.prepare("INSERT INTO document VALUES (?, ?)");
-        res.setInt(1, documentNumber);
-        res.setString(2, documentTitle);
-
-        res.executeUpdate();
-
-        DataManager.add(document);
-    }
-
+    @Override
     public void save(T document) throws SQLException {
         int documentNumber = document.getNumber();
-        String documentTitle = document.getTitle();
+        String documentState = document.getState();
 
-        PreparedStatement res = DatabaseManager.prepare("UPDATE document SET document_title = ? WHERE document_id = ?");
-        res.setString(1, documentTitle);
+        PreparedStatement  res = DatabaseManager.prepare("UPDATE document SET document_state = ? WHERE document_id = ?");
+        res.setString(1, documentState);
         res.setInt(2, documentNumber);
 
         res.executeUpdate();

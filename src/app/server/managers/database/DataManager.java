@@ -1,27 +1,36 @@
 package app.server.managers.database;
 
+import app.server.entities.DocumentEntity;
+import app.server.entities.interfaces.IDocument;
 import app.server.entities.interfaces.IEntity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 public class DataManager {
-    public static ArrayList<IEntity> cache = new ArrayList<>();
+    public static HashMap<String, IEntity> cache = new HashMap<>();
 
     public static void populate() {
         DataFactory.create();
     }
 
     public static void add(IEntity entity) {
-        cache.add(entity);
+        cache.put(entity.getIdentifier(), entity);
     }
 
-    public static IEntity get(IEntity entity) {
-        return cache.get(cache.indexOf(entity));
+    public static ArrayList<IEntity> getAll() {
+        return new ArrayList<>(cache.values());
     }
 
-    public static void print() {
-        System.out.println(cache.toString());
+    public static ArrayList<IEntity> getDocuments() {
+        return new ArrayList<>( cache.values().stream().filter(iEntity -> iEntity instanceof DocumentEntity).sorted((o1, o2) -> o1.getNumber() - o2.getNumber()).toList());
+    }
+
+    public static IEntity get(String entityIdentifier) {
+        return cache.get(entityIdentifier);
     }
 
 }

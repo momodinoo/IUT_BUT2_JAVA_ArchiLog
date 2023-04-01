@@ -8,6 +8,7 @@ import app.server.entities.interfaces.IDocument;
 import app.server.entities.interfaces.IEntity;
 import app.server.managers.server.ServerManager;
 import app.server.models.AbstractModel;
+import app.server.models.DVDModel;
 import app.server.models.DocumentModel;
 import app.server.models.IModel;
 import libs.server.Server;
@@ -23,6 +24,7 @@ public class DataFactory {
     public static void create() {
 
         DataFactory.modelList.add(new DocumentModel<>());
+        DataFactory.modelList.add(new DVDModel<>());
 
         try {
             for (IModel<?> model : modelList) {
@@ -36,7 +38,7 @@ public class DataFactory {
 
     public static void save() {
         try {
-            for(IEntity entity : DataManager.cache) {
+            for(IEntity entity : DataManager.getAll()) {
                 entity.save();
             }
         } catch (SQLException e) {
