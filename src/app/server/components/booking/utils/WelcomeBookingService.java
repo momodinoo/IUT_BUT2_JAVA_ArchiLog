@@ -1,4 +1,4 @@
-package app.server.components.booking.utils.step;
+package app.server.components.booking.utils;
 
 import app.server.components.booking.utils.BookingUtils;
 import app.server.entities.interfaces.IDocument;

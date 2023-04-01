@@ -73,12 +73,14 @@ public class DocumentEntity implements IDocument {
 
     @Override
     public void setBorrower(ISubscriber subscriber) throws RestrictionException {
-
+        this.borrower = subscriber;
+        this.state = "Borrowed";
     }
 
     @Override
     public void setBooker(ISubscriber subscriber) throws RestrictionException {
-
+        this.booker = subscriber;
+        this.state = "Booked";
     }
 
     @Override

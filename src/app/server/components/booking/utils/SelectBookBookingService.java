@@ -1,23 +1,19 @@
-package app.server.components.booking.utils.step;
+package app.server.components.booking.utils;
 
-import app.server.components.booking.utils.BookingUtils;
 import app.server.entities.DocumentEntity;
 import app.server.entities.SubscriberEntity;
-import app.server.entities.interfaces.IDocument;
-import app.server.entities.interfaces.ISubscriber;
 import app.server.exceptions.RestrictionException;
 import app.server.utils.EntityUtils;
 import libs.wakanttp.WakanTemplate;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class SelectBookBookingService {
 
     public static void send(WakanTemplate wakanTTP) throws IOException {
 
         SubscriberEntity subscriber = SelectBookBookingService.chooseClient(wakanTTP);
-        wakanTTP.send("Client choisi : " + subscriber.getName());
+        wakanTTP.send("Client choisi : " + subscriber.getName() + System.lineSeparator() + "Veuillez entrer votre numéro document :");
 
         DocumentEntity document = SelectBookBookingService.chooseDocument(wakanTTP);
         wakanTTP.send("Document choisi : " + document.getTitle());
@@ -25,6 +21,7 @@ public class SelectBookBookingService {
 
 
         document.setBooker(subscriber); //TODO synchronize & timer (de 2h)
+        //document.save();
     }
 
     private static SubscriberEntity chooseClient(WakanTemplate wakanTTP) throws IOException {
@@ -50,7 +47,7 @@ public class SelectBookBookingService {
         EntityUtils<DocumentEntity> su = new EntityUtils<>(DocumentEntity.class);
 
         while (!BookingUtils.isNumeric(documentId) || (document = su.getEntityById(Integer.parseInt(documentId))) == null) {
-            String messageError = "Numéro de document incorrect, veuillez réessayer." + System.lineSeparator() + "Entrez votre numéro client : ";
+            String messageError = "Numéro de document incorrect, veuillez réessayer." + System.lineSeparator() + "Entrez votre numéro document : ";
             documentId = retry(messageError, wakanTTP);
         }
 
