@@ -12,4 +12,9 @@ public class BookingUtils {
         return DataManager.getDocuments();
     }
 
+    // test
+    public static ArrayList<IEntity> getAllSubscribers() {
+        return DataManager.getSubscribers();
+    }
+
 }

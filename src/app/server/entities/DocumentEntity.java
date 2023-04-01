@@ -3,6 +3,7 @@ package app.server.entities;
 import app.server.entities.interfaces.IDocument;
 import app.server.entities.interfaces.ISubscriber;
 import app.server.exceptions.RestrictionException;
+import app.server.managers.database.DataManager;
 import app.server.models.DocumentModel;
 
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ public class DocumentEntity implements IDocument {
     private final int    number;
     private final String title;
     private       String state;
+    private       int idSubscriber;
 
     private ISubscriber borrower = null;
     private ISubscriber booker   = null;
@@ -19,10 +21,11 @@ public class DocumentEntity implements IDocument {
     public final static String PREFIX = "doc-";
 
 
-    public DocumentEntity(int number, String title, String state) {
+    public DocumentEntity(int number, String title, String state, int idSubscriber) {
         this.number = number;
         this.title = title;
         this.state = state;
+        this.idSubscriber = idSubscriber;
     }
 
     public int getNumber() {
@@ -35,11 +38,11 @@ public class DocumentEntity implements IDocument {
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public String getState() {
-        return state;
+        return this.state;
     }
 
     public void setState(String state){
@@ -56,13 +59,25 @@ public class DocumentEntity implements IDocument {
         return booker;
     }
 
+    public ISubscriber getSubscriber(){
+        return (ISubscriber) DataManager.get(DocumentEntity.PREFIX + idSubscriber);
+    }
+
+    public void setSubscription(){
+        switch (this.state) {
+            case "Booked" -> setBooker(this.getSubscriber());
+            case "Borrowed" -> setBorrower(this.getSubscriber());
+            default -> { break; }
+        };
+    }
+
     @Override
-    public void setReservation(ISubscriber subscriber) throws RestrictionException {
+    public void setBorrower(ISubscriber subscriber) throws RestrictionException {
 
     }
 
     @Override
-    public void setBook(ISubscriber subscriber) throws RestrictionException {
+    public void setBooker(ISubscriber subscriber) throws RestrictionException {
 
     }
 
@@ -87,6 +102,8 @@ public class DocumentEntity implements IDocument {
             default -> "Le Wakan Tanka l'a pris :(";
         };
 
-        return this.number + " - " + this.title + " - " + state;
+        String idSub = (idSubscriber == 0) ? "" : idSubscriber+"";
+
+        return this.number + " - " + this.title + " - " + state + " " + idSub;
     }
 }

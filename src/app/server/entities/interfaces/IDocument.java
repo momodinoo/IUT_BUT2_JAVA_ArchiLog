@@ -19,14 +19,14 @@ public interface IDocument extends IEntity {
 
 
     /**
-     * /!\ Need not be reserved or borrowed
+     * /!\ Need to be free (not booked or borrowed)
      */
-    void setReservation(ISubscriber subscriber) throws RestrictionException;
+    void setBorrower(ISubscriber subscriber) throws RestrictionException;
 
     /**
      * /!\ Need to be free or reserved by the subscriber who comes to borrow
      */
-    void setBook(ISubscriber subscriber) throws RestrictionException;
+    void setBooker(ISubscriber subscriber) throws RestrictionException;
 
     /**
      * Return Document or reservation cancellation
