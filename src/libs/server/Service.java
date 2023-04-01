@@ -1,6 +1,7 @@
 package libs.server;
 
 import libs.wakanttp.WakanTTP;
+import libs.wakanttp.WakanTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +22,10 @@ public abstract class Service implements Runnable {
 
     protected Socket getClient() {
         return this.client;
+    }
+
+    protected WakanTemplate getProtocol() {
+        return this.wakanTTP;
     }
 
     abstract protected void execute() throws IOException;

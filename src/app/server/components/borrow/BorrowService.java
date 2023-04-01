@@ -1,5 +1,7 @@
 package app.server.components.borrow;
 
+import app.server.components.booking.utils.SelectBookBookingService;
+import app.server.components.booking.utils.WelcomeBookingService;
 import libs.server.Service;
 
 import java.io.BufferedReader;
@@ -18,8 +20,7 @@ public class BorrowService extends Service {
     @Override
     protected void execute() throws IOException {
 
-        String r = this.wakanTTP.read();
-        this.wakanTTP.send(r);
-
+        this.getProtocol().read();
+        
     }
 }
