@@ -7,7 +7,7 @@ import app.server.models.DVDModel;
 import java.sql.SQLException;
 
 public class DVDEntity implements IDVD {
-    private final int     number;
+    private final int number;
     private final IDocument document;
     private final boolean isForAdults;
 
@@ -20,20 +20,20 @@ public class DVDEntity implements IDVD {
     }
 
     @Override
-        public String getIdentifier() {
-            return PREFIX + this.getNumber();
-        }
+    public String getIdentifier() {
+        return PREFIX + this.getNumber();
+    }
 
     public IDocument getDocument() {
         return this.document;
     }
 
     public boolean isForAdults() {
-        return isForAdults;
+        return this.isForAdults;
     }
 
     public int getNumber() {
-        return number;
+        return this.number;
     }
 
     @Override

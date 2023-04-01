@@ -19,8 +19,9 @@ public class DocumentModel<T extends DocumentEntity> extends AbstractModel<T> {
             int documentNumber = res.getInt("document_id");
             String documentTitle = res.getString("document_title");
             String documentState = res.getString("document_state");
+            int idSubscriber = res.getInt("id_subscriber");
 
-            DocumentEntity document = new DocumentEntity(documentNumber, documentTitle, documentState);
+            DocumentEntity document = new DocumentEntity(documentNumber, documentTitle, documentState, idSubscriber);
 
             DataManager.add(document);
         }
@@ -30,10 +31,12 @@ public class DocumentModel<T extends DocumentEntity> extends AbstractModel<T> {
     public void save(T document) throws SQLException {
         int documentNumber = document.getNumber();
         String documentState = document.getState();
+        int documentSubscriberID = document.getIdSubscriber();
 
-        PreparedStatement  res = DatabaseManager.prepare("UPDATE document SET document_state = ? WHERE document_id = ?");
+        PreparedStatement  res = DatabaseManager.prepare("UPDATE document SET document_state = ?, id_subscriber = ? WHERE document_id = ?");
         res.setString(1, documentState);
-        res.setInt(2, documentNumber);
+        res.setInt(2, documentSubscriberID);
+        res.setInt(3, documentNumber);
 
         res.executeUpdate();
     }

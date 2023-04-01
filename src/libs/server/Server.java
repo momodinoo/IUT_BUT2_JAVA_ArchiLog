@@ -20,8 +20,6 @@ public abstract class Server implements Runnable {
         this.actualServiceClass = null;
     }
 
-    //TODO a constr with only a port as parameter for testing if the server is open with the getPort() method
-
     public int getPort() {
         return this.port;
     }

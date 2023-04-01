@@ -1,6 +1,7 @@
 package app.server.managers.database;
 
 import app.server.entities.DocumentEntity;
+import app.server.entities.SubscriberEntity;
 import app.server.entities.interfaces.IDocument;
 import app.server.entities.interfaces.IEntity;
 
@@ -33,4 +34,9 @@ public class DataManager {
         return cache.get(entityIdentifier);
     }
 
+    // test
+    public static ArrayList<IEntity> getSubscribers() {
+        return new ArrayList<>( cache.values().stream().filter(iEntity -> iEntity instanceof SubscriberEntity).sorted((o1, o2) -> o1.getNumber() - o2.getNumber()).toList());
+
+    }
 }
