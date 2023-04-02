@@ -1,4 +1,4 @@
-package app.server.components.booking.utils;
+package app.server.components.borrow.utils;
 
 import app.server.entities.interfaces.IDocument;
 import app.server.utils.EntityUtils;
@@ -6,14 +6,14 @@ import libs.wakanttp.WakanTemplate;
 
 import java.util.ArrayList;
 
-public class WelcomeBookingService {
+public class WelcomeBorrowService {
 
     public static void send(WakanTemplate wakanTTP) {
 
         ArrayList<IDocument> documentList = new EntityUtils<>(IDocument.class).getEntityList();
         StringBuilder        sr           = new StringBuilder();
 
-        sr.append("Bienvenue sur le service Réservation, pour commencer, veuillez sélectionner le document que vous souhaitez :").append(System.lineSeparator());
+        sr.append("Bienvenue sur le service d'Emprun, pour commencer, veuillez sélectionner le document que vous souhaitez :").append(System.lineSeparator());
 
         for(IDocument entity : documentList) {
             sr.append(entity).append(System.lineSeparator());

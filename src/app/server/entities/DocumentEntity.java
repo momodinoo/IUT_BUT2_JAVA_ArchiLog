@@ -5,17 +5,19 @@ import app.server.entities.interfaces.ISubscriber;
 import app.server.exceptions.RestrictionException;
 import app.server.managers.database.DataManager;
 import app.server.models.DocumentModel;
+import app.server.utils.EntityUtils;
 
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class DocumentEntity implements IDocument {
 
-    private final int    number;
-    private final String title;
-    private       String state;
-    private       int    idSubscriber;
+    private final int     number;
+    private final String  title;
+    private       String  state;
+    private       Integer idSubscriber;
 
     private ISubscriber borrower = null;
     private ISubscriber booker   = null;
@@ -34,9 +36,21 @@ public class DocumentEntity implements IDocument {
         this.state = state;
         this.idSubscriber = idSubscriber;
         this.lock = new Object();
+
+        if (this.idSubscriber != 0) {
+            EntityUtils<SubscriberEntity> su         = new EntityUtils<>(SubscriberEntity.class);
+            SubscriberEntity              subscriber = su.getEntityById(this.idSubscriber);
+
+            if (this.state.equals("Borrowed")) {
+                this.borrower = subscriber;
+            }
+            if (this.state.equals("Booked")) {
+                this.booker = subscriber;
+            }
+        }
     }
 
-    private class EndOfBooking extends TimerTask {
+    private static class EndOfBooking extends TimerTask {
         private DocumentEntity document;
 
         public EndOfBooking(DocumentEntity doc) {
@@ -45,6 +59,7 @@ public class DocumentEntity implements IDocument {
 
         @Override
         public void run() {
+            System.out.println("reset state :)");
             this.document.resetBooker();
         }
     }
@@ -65,28 +80,30 @@ public class DocumentEntity implements IDocument {
         return this.state;
     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
-
     public ISubscriber getBorrower() {
-        return borrower;
+        synchronized (lock) {
+            return borrower;
+        }
     }
 
     public ISubscriber getBooker() {
-        return booker;
+        synchronized (lock) {
+            return booker;
+        }
     }
 
     public ISubscriber getSubscriber() {
-        return (ISubscriber) DataManager.get(DocumentEntity.PREFIX + idSubscriber);
+        return (ISubscriber) DataManager.get(SubscriberEntity.PREFIX + idSubscriber);
     }
 
     public void setBorrower(ISubscriber subscriber) throws RestrictionException {
         synchronized (lock) {
-            if (borrower != null || booker != subscriber)
+            if (borrower != null || (booker != null && booker != subscriber))
                 throw new RestrictionException();
 
             this.borrower = subscriber;
+            this.booker = null;
+            this.idSubscriber = subscriber.getNumber();
             this.state = "Borrowed";
         }
     }
@@ -98,24 +115,27 @@ public class DocumentEntity implements IDocument {
 
             this.booker = subscriber;
             this.state = "Booked";
+            this.idSubscriber = subscriber.getNumber();
+            this.timerBooking = new Timer();
             this.timerBooking.schedule(new EndOfBooking(this), BOOKING_TIME);
         }
     }
 
     private void resetBooker() {
         this.booker = null;
+        this.idSubscriber = null;
     }
 
     public void returnDocument() {
         synchronized (lock) {
             this.borrower = null;
-            this.booker = null;
+            this.idSubscriber = null;
             this.state = "Available";
         }
     }
 
     public void save() throws SQLException {
-        DocumentModel <DocumentEntity> documentModel = new DocumentModel <>();
+        DocumentModel<DocumentEntity> documentModel = new DocumentModel<>();
 
         documentModel.save(this);
     }
@@ -129,8 +149,6 @@ public class DocumentEntity implements IDocument {
             default -> "Ce document est la propriété du grand Wakan Tanka.";
         };
 
-        String idSub = (idSubscriber == 0) ? "" : idSubscriber + "";
-
-        return this.number + " - " + this.title + " - " + state + " " + idSub;
+        return this.number + " - " + this.title + " (" + state + ")";
     }
 }

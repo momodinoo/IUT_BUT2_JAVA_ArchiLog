@@ -5,6 +5,7 @@ import app.server.entities.DocumentEntity;
 import app.server.entities.interfaces.IDocument;
 import app.server.managers.database.DataManager;
 import app.server.managers.database.DatabaseManager;
+import app.server.utils.EntityUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,10 +34,23 @@ public class DVDModel<T extends DVDEntity> extends AbstractModel<T> {
         int     dvdNumber = dvd.getNumber();
         boolean forAdults = dvd.isForAdults();
 
-        PreparedStatement res = DatabaseManager.prepare("UPDATE dvd SET forAdults = ? WHERE dvd_id = ?");
+        PreparedStatement res = DatabaseManager.prepare("UPDATE dvd SET dvd_adult = ? WHERE dvd_id = ?");
         res.setBoolean(1, forAdults);
         res.setInt(2, dvdNumber);
 
         res.executeUpdate();
+    }
+
+    public DVDEntity getDVDEntityByDocumentId(int documentId) {
+
+        EntityUtils<DVDEntity> de = new EntityUtils<>(DVDEntity.class);
+
+        for(DVDEntity dvd : de.getEntityList()) {
+            if(dvd.getDocument().getNumber() == documentId) {
+                return dvd;
+            }
+        }
+
+        return null;
     }
 }

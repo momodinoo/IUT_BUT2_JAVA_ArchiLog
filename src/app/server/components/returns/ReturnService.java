@@ -1,5 +1,9 @@
 package app.server.components.returns;
 
+import app.server.components.booking.utils.SelectBookBookingService;
+import app.server.components.booking.utils.WelcomeBookingService;
+import app.server.components.returns.utils.ReturnReturnsService;
+import app.server.components.returns.utils.WelcomeReturnsService;
 import libs.server.Service;
 
 import java.io.IOException;
@@ -15,7 +19,9 @@ public class ReturnService extends Service {
     @Override
     protected void execute() throws IOException {
 
-        this.wakanTTP.send(this.wakanTTP.read());
+        this.getProtocol().read();
 
+        WelcomeReturnsService.send(this.getProtocol());
+        ReturnReturnsService.send(this.getProtocol());
     }
 }

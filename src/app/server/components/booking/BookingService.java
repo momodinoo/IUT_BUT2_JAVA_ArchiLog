@@ -18,7 +18,7 @@ public class BookingService extends Service {
     protected void execute() throws IOException {
         this.getProtocol().read();
 
-        WelcomeBookingService.send(this.wakanTTP);
-        SelectBookBookingService.send(this.wakanTTP);
+        WelcomeBookingService.send(this.getProtocol());
+        SelectBookBookingService.send(this.getProtocol());
     }
 }

@@ -1,12 +1,13 @@
 package app.server;
 
+import app.server.managers.database.DataFactory;
 import app.server.managers.database.DataManager;
 import app.server.managers.server.ServerFactory;
 import app.server.managers.database.DatabaseConnector;
 
 public class Main {
     private static final String JDCB = "com.mysql.cj.jdbc.Driver";
-    private static final String URL  = "jdbc:mysql://sql.freedb.tech:3306/freedb_Archilog?user=freedb_Archilog&password=rnTqGkMSJ!9XsN2";
+    private static final String URL  = "jdbc:mysql://sql2.minestrator.com:3306/minesr_3MQ0ZKy7?user=minesr_3MQ0ZKy7&password=GowuLfIqL2tFQNzS";
 
 
     public static void main(String[] args) {
@@ -21,6 +22,9 @@ public class Main {
 
             e.printStackTrace();
         }
+
+
+        Runtime.getRuntime().addShutdownHook(new Thread(DataFactory::save, "Shutdown-thread"));
 
     }
 }

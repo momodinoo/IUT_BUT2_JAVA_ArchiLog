@@ -20,9 +20,9 @@ public class DataFactory {
 
     public static void create() {
 
+        DataFactory.modelList.add(new SubscriberModel<>());
         DataFactory.modelList.add(new DocumentModel<>());
         DataFactory.modelList.add(new DVDModel<>());
-        DataFactory.modelList.add(new SubscriberModel<>());
 
         try {
             for (IModel<?> model : modelList) {

@@ -9,6 +9,7 @@ import app.server.managers.database.DatabaseManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
 public class DocumentModel<T extends DocumentEntity> extends AbstractModel<T> {
 
@@ -31,11 +32,16 @@ public class DocumentModel<T extends DocumentEntity> extends AbstractModel<T> {
     public void save(T document) throws SQLException {
         int documentNumber = document.getNumber();
         String documentState = document.getState();
-        int documentSubscriberID = document.getSubscriber().getNumber();
+        Integer documentSubscriberID = (document.getSubscriber() != null) ? document.getSubscriber().getNumber() : null;
 
         PreparedStatement  res = DatabaseManager.prepare("UPDATE document SET document_state = ?, id_subscriber = ? WHERE document_id = ?");
         res.setString(1, documentState);
-        res.setInt(2, documentSubscriberID);
+
+        if(documentSubscriberID == null) {
+            res.setNull(2, Types.INTEGER);
+        } else {
+            res.setInt(2, documentSubscriberID);
+        }
         res.setInt(3, documentNumber);
 
         res.executeUpdate();
