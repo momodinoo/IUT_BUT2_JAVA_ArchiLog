@@ -1,10 +1,11 @@
-package app.server.models.entities;
+package app.server.entities.interfaces;
 
 import app.server.exceptions.RestrictionException;
 
-public interface IDocument {
+//TODO écrire et lock les méthodes lockables
 
-    int getNumber();
+public interface IDocument extends IEntity {
+
 
     /**
      * @return null if not reserved or borrowed.
@@ -14,22 +15,22 @@ public interface IDocument {
     /**
      * @return null if not reserved or borrowed.
      */
-    ISubscriber GetBooker();
+    ISubscriber getBooker();
 
 
     /**
-     * /!\ Need not be reserved or borrowed
+     * /!\ Need to be free (not booked or borrowed)
      */
-    void setReservation(ISubscriber subscriber) throws RestrictionException;
+    void setBorrower(ISubscriber subscriber) throws RestrictionException;
 
     /**
      * /!\ Need to be free or reserved by the subscriber who comes to borrow
      */
-    void setBook(ISubscriber subscriber) throws RestrictionException;
+    void setBooker(ISubscriber subscriber) throws RestrictionException;
 
     /**
      * Return Document or reservation cancellation
      */
-    void returnBook();
+    void returnDocument();
 
 }

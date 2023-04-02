@@ -1,36 +1,24 @@
 package app.server.components.booking;
 
+import app.server.components.booking.utils.SelectBookBookingService;
+import app.server.components.booking.utils.WelcomeBookingService;
 import libs.server.Service;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Objects;
+import java.util.TimerTask;
 
 public class BookingService extends Service {
 
-    public BookingService(Socket socket) {
+    public BookingService(Socket socket) throws IOException {
         super(socket);
     }
 
-    //Todo review that
     @Override
-    public void run() {
-        try {
+    protected void execute() throws IOException {
+        this.getProtocol().read();
 
-            while (true) {
-                PrintWriter out = new PrintWriter(this.getClient().getOutputStream(), true);
-
-                BufferedReader in   = new BufferedReader(new InputStreamReader(this.getClient().getInputStream()));
-                String         line = in.readLine();
-
-                out.println(line);
-            }
-
-            //TODO  afficher tous les docuements disponibles
-        } catch (IOException ignored) {
-        }
+        WelcomeBookingService.send(this.getProtocol());
+        SelectBookBookingService.send(this.getProtocol());
     }
 }
