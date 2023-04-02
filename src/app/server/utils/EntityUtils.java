@@ -1,6 +1,5 @@
 package app.server.utils;
 
-import app.server.entities.interfaces.IDocument;
 import app.server.entities.interfaces.IEntity;
 import app.server.managers.database.DataManager;
 

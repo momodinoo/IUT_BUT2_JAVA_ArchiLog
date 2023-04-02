@@ -20,19 +20,19 @@ public class SelectBookBookingService {
 
         DocumentEntity document = SelectBookBookingService.chooseDocument(wakanTTP);
 
-        DVDModel<DVDEntity> dvdModel = new DVDModel<>();
-        DVDEntity           dvd      = dvdModel.getDVDEntityByDocumentId(document.getNumber());
+        DVDModel <DVDEntity> dvdModel = new DVDModel <>();
+        DVDEntity            dvd      = dvdModel.getDVDEntityByDocumentId(document.getNumber());
 
-        if(dvd != null && dvd.isForAdults()) {
-            if(!Utils.hasAdultAge(subscriber.getDateOfBirth())) {
+        if (dvd != null && dvd.isForAdults()) {
+            if (!Utils.hasAdultAge(subscriber.getDateOfBirth())) {
                 wakanTTP.send("Vous n'avez pas l'âge requis pour réserver ce livre.");
                 return;
             }
         }
 
         try {
-            document.setBooker(subscriber); //TODO synchronize & timer (de 2h)
-        } catch(RestrictionException re){
+            document.setBooker(subscriber);
+        } catch (RestrictionException re) {
             wakanTTP.send("Ce document est déjà réservé.");
             return;
         }
@@ -43,10 +43,10 @@ public class SelectBookBookingService {
 
     private static SubscriberEntity chooseClient(WakanTemplate wakanTTP) throws IOException {
 
-        String   subscriberId = wakanTTP.read();
+        String           subscriberId = wakanTTP.read();
         SubscriberEntity subscriber;
 
-        EntityUtils<SubscriberEntity> su = new EntityUtils<>(SubscriberEntity.class);
+        EntityUtils <SubscriberEntity> su = new EntityUtils <>(SubscriberEntity.class);
 
         while (!Utils.isNumeric(subscriberId) || (subscriber = su.getEntityById(Integer.parseInt(subscriberId))) == null) {
             String messageError = "Numéro de client incorrect, veuillez réessayer." + System.lineSeparator() + "Entrez votre numéro client : ";
@@ -61,7 +61,7 @@ public class SelectBookBookingService {
         String         documentId = wakanTTP.read();
         DocumentEntity document;
 
-        EntityUtils<DocumentEntity> su = new EntityUtils<>(DocumentEntity.class);
+        EntityUtils <DocumentEntity> su = new EntityUtils <>(DocumentEntity.class);
 
         while (!Utils.isNumeric(documentId) || (document = su.getEntityById(Integer.parseInt(documentId))) == null) {
             String messageError = "Numéro de document incorrect, veuillez réessayer." + System.lineSeparator() + "Entrez le numéro du document : ";

@@ -36,10 +36,9 @@ public class SubscriberEntity implements ISubscriber {
         return this.dateOfBirth;
     }
 
-    //TODO empty method because nothing to save ??
     @Override
     public void save() throws SQLException {
-        SubscriberModel<SubscriberEntity> subscriberModel = new SubscriberModel<>();
+        SubscriberModel <SubscriberEntity> subscriberModel = new SubscriberModel<>();
 
         subscriberModel.save(this);
     }

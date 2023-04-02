@@ -16,7 +16,7 @@ public class SelectBookBorrowService {
     public static void send(WakanTemplate wakanTTP) throws IOException {
 
         SubscriberEntity subscriber = SelectBookBorrowService.chooseClient(wakanTTP);
-        wakanTTP.send("Client choisi : " + subscriber.getName() + System.lineSeparator() + "Veuillez entrer votre numéro document :");
+        wakanTTP.send("Client choisi : " + subscriber.getName() + System.lineSeparator() + "Veuillez entrer le numéro du document :");
 
         DocumentEntity document = SelectBookBorrowService.chooseDocument(wakanTTP);
 

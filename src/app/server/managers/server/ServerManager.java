@@ -24,7 +24,6 @@ public class ServerManager {
 
         for(Server server : serversList) {
             server.stop();
-            //TODO STOP SERVER :)
         }
 
         serversList.clear();

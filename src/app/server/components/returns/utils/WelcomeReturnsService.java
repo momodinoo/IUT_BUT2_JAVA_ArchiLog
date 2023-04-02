@@ -10,7 +10,7 @@ public class WelcomeReturnsService {
 
     public static void send(WakanTemplate wakanTTP) {
 
-        wakanTTP.send("Bienvenue sur le service de retour, veuillez entrer le document que vous souhaitez rendre :" + System.lineSeparator());
+        wakanTTP.send("Bienvenue sur le service de retour, veuillez entrer le numéro du document que vous souhaitez rendre :" + System.lineSeparator());
 
     }
 

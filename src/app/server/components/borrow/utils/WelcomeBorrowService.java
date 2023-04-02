@@ -13,7 +13,7 @@ public class WelcomeBorrowService {
         ArrayList<IDocument> documentList = new EntityUtils<>(IDocument.class).getEntityList();
         StringBuilder        sr           = new StringBuilder();
 
-        sr.append("Bienvenue sur le service d'Emprun, pour commencer, veuillez sélectionner le document que vous souhaitez :").append(System.lineSeparator());
+        sr.append("Bienvenue sur le service d'Emprunt, voici la liste des documents disponibles :").append(System.lineSeparator());
 
         for(IDocument entity : documentList) {
             sr.append(entity).append(System.lineSeparator());

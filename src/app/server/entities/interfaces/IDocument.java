@@ -2,8 +2,6 @@ package app.server.entities.interfaces;
 
 import app.server.exceptions.RestrictionException;
 
-//TODO écrire et lock les méthodes lockables
-
 public interface IDocument extends IEntity {
 
 
